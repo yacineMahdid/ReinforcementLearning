@@ -1,6 +1,9 @@
 import gym
+import random
+import numpy as np
 
 
+# Helper functions
 def update_parameters(current_observation, index, parameter):
     if current_observation[index] < parameter[0]:
         parameter[0] = observation[index]
@@ -9,33 +12,68 @@ def update_parameters(current_observation, index, parameter):
     return parameter
 
 
+def discretize(float_value, values, num_buckets):
+    increment = (abs(values[0])+values[1])/num_buckets
+    for i in range(0, num_buckets):
+        if float_value < increment*(i+1) + values[0]:
+            return i
+# Main
+
+
+# Parameters
+x_position_values = [-0.24, 0.24]
+velocity_values = [-1.4, 1.4]
+angle_values = [-0.30, 0.30]
+angular_velocity_values = [-4.00, 4.00]
+
+x_position_num_bucket = 3
+velocity_num_bucket = 3
+angle_num_bucket = 6
+angular_velocity_num_bucket = 6
+
+q_table = np.zeros([x_position_num_bucket,velocity_num_bucket,angle_num_bucket,angular_velocity_num_bucket, 2])  # First take (2 state and 2 action)
+
+# Hyper-parameters
+alpha = 0.1
+gamma = 0.1
+epsilon = 0.1
+
 env = gym.make('CartPole-v0')
-x_position = [1000, -1000]
-velocity = [1000, -1000]
-angle = [1000, -1000]
-angular_velocity = [1000, -1000]
-for i_episode in range(20):
+for i_episode in range(600):
     observation = env.reset()
+    print(i_episode)
     for t in range(195):
         env.render()
 
-        # Updating the observations min and max
-        x_position = update_parameters(observation, 0, x_position)
-        velocity = update_parameters(observation, 1, velocity)
-        angle = update_parameters(observation, 2, angle)
-        angular_velocity = update_parameters(observation, 3, angular_velocity)
+        x_position = discretize(observation[0],x_position_values,x_position_num_bucket)
+        velocity = discretize(observation[1],velocity_values,velocity_num_bucket)
+        angle = discretize(observation[2],angle_values,angle_num_bucket)
+        angular_velocity = discretize(observation[3],angular_velocity_values,angle_num_bucket)
 
-        action = env.action_space.sample()
+        if random.uniform(0, 1) < epsilon:
+            action = env.action_space.sample()  # Explore action space
+        else:
+            action = np.argmax(q_table[x_position,velocity,angle,angular_velocity])  # Exploit learned values
 
-        observation, reward, done, info = env.step(action)
-        print(observation)
+        next_observation, reward, done, info = env.step(action)
+
+        x_position_next = discretize(next_observation[0],x_position_values,x_position_num_bucket)
+        velocity_next = discretize(next_observation[1],velocity_values,velocity_num_bucket)
+        angle_next = discretize(next_observation[2],angle_values,angle_num_bucket)
+        angular_velocity_next = discretize(next_observation[3],angular_velocity_values,angular_velocity_num_bucket)
+
+        old_value = q_table[x_position,velocity,angle,angular_velocity, action]
+        next_max = np.max(q_table[x_position_next,velocity_next,angle_next,angular_velocity_next])
+
+        # Q formula and updating q_table
+        new_value = (1 - alpha) * old_value + alpha * (reward + gamma * next_max)
+        q_table[x_position,velocity,angle,angular_velocity, action] = new_value
+
+        observation = next_observation
+
+        #print(observation)
         if done:
             print("Episode finished after {} timesteps".format(t+1))
             break
 
-
-# Printing the min and max values
-print("X Position: " + str(x_position))
-print("Velocity: " + str(velocity))
-print("Angle: " + str(angle))
-print("Angular velocity: " + str(angular_velocity))
+print(q_table)

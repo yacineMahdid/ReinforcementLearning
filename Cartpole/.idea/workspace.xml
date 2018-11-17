@@ -14,8 +14,12 @@
       <file leaf-file-name="cartpole_rl.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cartpole_rl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+            <state relative-caret-position="173">
+              <caret line="43" column="19" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+                <element signature="e#68#268#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -131,8 +135,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cartpole_rl.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+        <state relative-caret-position="173">
+          <caret line="43" column="19" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#68#268#0" />
+          </folding>
         </state>
       </provider>
     </entry>
