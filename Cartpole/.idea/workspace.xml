@@ -14,8 +14,8 @@
       <file leaf-file-name="cartpole_rl.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cartpole_rl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="173">
-              <caret line="43" column="19" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
+            <state relative-caret-position="85">
+              <caret line="38" column="11" selection-start-line="38" selection-start-column="11" selection-end-line="38" selection-end-column="11" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
                 <element signature="e#68#268#0" />
@@ -43,7 +43,6 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-12" />
-    <option name="y" value="-12" />
     <option name="width" value="1890" />
     <option name="height" value="930" />
   </component>
@@ -92,7 +91,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1260" height="620" extended-state="0" />
+    <frame x="-8" y="0" width="1260" height="620" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24959871" />
@@ -135,8 +134,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cartpole_rl.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="43" column="19" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
+        <state relative-caret-position="85">
+          <caret line="38" column="11" selection-start-line="38" selection-start-column="11" selection-end-line="38" selection-end-column="11" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <element signature="e#68#268#0" />

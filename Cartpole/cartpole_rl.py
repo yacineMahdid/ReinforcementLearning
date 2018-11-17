@@ -31,12 +31,13 @@ velocity_num_bucket = 3
 angle_num_bucket = 6
 angular_velocity_num_bucket = 6
 
-q_table = np.zeros([x_position_num_bucket,velocity_num_bucket,angle_num_bucket,angular_velocity_num_bucket, 2])  # First take (2 state and 2 action)
+q_table = np.zeros([angle_num_bucket,angular_velocity_num_bucket, 2])  # First take (2 state and 2 action)
 
 # Hyper-parameters
-alpha = 0.1
+alpha = 0.3
 gamma = 0.1
-epsilon = 0.1
+epsilon = 0.7
+max_number_exploration = 200
 
 env = gym.make('CartPole-v0')
 for i_episode in range(600):
@@ -50,10 +51,12 @@ for i_episode in range(600):
         angle = discretize(observation[2],angle_values,angle_num_bucket)
         angular_velocity = discretize(observation[3],angular_velocity_values,angle_num_bucket)
 
-        if random.uniform(0, 1) < epsilon:
+        if random.uniform(0, 1) < epsilon and i_episode < max_number_exploration:
+            #print("Exploring")
             action = env.action_space.sample()  # Explore action space
         else:
-            action = np.argmax(q_table[x_position,velocity,angle,angular_velocity])  # Exploit learned values
+            #print("Not exploring")
+            action = np.argmax(q_table[angle,angular_velocity])  # Exploit learned values
 
         next_observation, reward, done, info = env.step(action)
 
@@ -62,12 +65,12 @@ for i_episode in range(600):
         angle_next = discretize(next_observation[2],angle_values,angle_num_bucket)
         angular_velocity_next = discretize(next_observation[3],angular_velocity_values,angular_velocity_num_bucket)
 
-        old_value = q_table[x_position,velocity,angle,angular_velocity, action]
-        next_max = np.max(q_table[x_position_next,velocity_next,angle_next,angular_velocity_next])
+        old_value = q_table[angle,angular_velocity, action]
+        next_max = np.max(q_table[angle_next,angular_velocity_next])
 
         # Q formula and updating q_table
         new_value = (1 - alpha) * old_value + alpha * (reward + gamma * next_max)
-        q_table[x_position,velocity,angle,angular_velocity, action] = new_value
+        q_table[angle,angular_velocity, action] = new_value
 
         observation = next_observation
 
