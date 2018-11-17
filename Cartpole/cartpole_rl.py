@@ -22,14 +22,14 @@ def discretize(float_value, values, num_buckets):
 
 # Parameters
 x_position_values = [-0.24, 0.24]
-velocity_values = [-1.4, 1.4]
+velocity_values = [-2.5, 2.5]
 angle_values = [-0.30, 0.30]
-angular_velocity_values = [-4.00, 4.00]
+angular_velocity_values = [-3.5, 3.5]
 
 x_position_num_bucket = 3
 velocity_num_bucket = 3
-angle_num_bucket = 6
-angular_velocity_num_bucket = 6
+angle_num_bucket = 7
+angular_velocity_num_bucket = 7
 
 q_table = np.zeros([angle_num_bucket,angular_velocity_num_bucket, 2])  # First take (2 state and 2 action)
 
@@ -50,6 +50,11 @@ for i_episode in range(600):
         velocity = discretize(observation[1],velocity_values,velocity_num_bucket)
         angle = discretize(observation[2],angle_values,angle_num_bucket)
         angular_velocity = discretize(observation[3],angular_velocity_values,angle_num_bucket)
+
+        #print("X position: " + str(observation[0]))
+        #print("Velocity: " + str(observation[1]))
+        #print("Angle: " + str(observation[2]))
+        #print("Angular Velocity: " + str(observation[3]))
 
         if random.uniform(0, 1) < epsilon and i_episode < max_number_exploration:
             #print("Exploring")
